@@ -2,6 +2,7 @@ import { Button } from "../components/Button";
 import { Categories } from "../components/Categories";
 import { Header } from "../components/Header";
 import { Menu } from "../components/Menu";
+import { TableModal } from "../components/TableModal";
 import { Text } from "../components/Text";
 import {
   CategoriesContainer,
@@ -30,6 +31,8 @@ export function Main() {
           <Button title="Novo pedido" onPress={() => alert("Novo pedido")} />
         </FooterContainer>
       </Footer>
+
+      <TableModal />
     </>
   );
 }
