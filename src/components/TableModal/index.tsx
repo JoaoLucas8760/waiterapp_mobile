@@ -4,15 +4,22 @@ import { Form, Input, ModalBody, Overlay } from "./styles";
 import { Header } from "./styles";
 import { Close } from "../Icons/Close";
 import { Button } from "../Button";
+import { useState } from "react";
 
 interface props {
   visible: boolean;
   handleCloseModal: () => void;
+  handleSaveTable: (table: string) => void;
 }
 
-export function TableModal({ visible, handleCloseModal }: props) {
+export function TableModal({
+  visible,
+  handleCloseModal,
+  handleSaveTable,
+}: props) {
+  const [table, setTable] = useState("");
   return (
-    <Modal visible={visible} transparent>
+    <Modal visible={visible} transparent animationType="fade">
       <Overlay behavior={Platform.OS === "android" ? "height" : "padding"}>
         <ModalBody>
           <Header>
@@ -26,8 +33,14 @@ export function TableModal({ visible, handleCloseModal }: props) {
               placeholder="Número da mesa"
               placeholderTextColor="#666"
               keyboardType="number-pad"
+              onChangeText={setTable}
+              value={table}
             />
-            <Button onPress={() => alert("ok")} title="Salvar" />
+            <Button
+              onPress={() => handleSaveTable(table)}
+              title="Salvar"
+              disabled={table.length === 0}
+            />
           </Form>
         </ModalBody>
       </Overlay>

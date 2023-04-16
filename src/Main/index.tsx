@@ -15,6 +15,12 @@ import {
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
+  const [selectedTable, setSelectedTable] = useState("");
+
+  function handleSaveTable(table: string) {
+    setSelectedTable(table);
+    setIsTableModalVisible(false);
+  }
   return (
     <>
       <Container>
@@ -30,16 +36,19 @@ export function Main() {
       </Container>
       <Footer>
         <FooterContainer>
-          <Button
-            title="Novo pedido"
-            onPress={() => setIsTableModalVisible(true)}
-          />
+          {!selectedTable && (
+            <Button
+              title="Novo pedido"
+              onPress={() => setIsTableModalVisible(true)}
+            />
+          )}
         </FooterContainer>
       </Footer>
 
       <TableModal
         visible={isTableModalVisible}
         handleCloseModal={() => setIsTableModalVisible(false)}
+        handleSaveTable={handleSaveTable}
       />
     </>
   );
