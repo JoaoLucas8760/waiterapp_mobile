@@ -29,7 +29,7 @@ export function Header({ selectedTable }: props) {
               </Text>
               <TouchableOpacity>
                 <Text color="#d73035" weight="600" size={14}>
-                  Cancelar pedidoo
+                  Cancelar pedido
                 </Text>
               </TouchableOpacity>
             </OrderHeader>
