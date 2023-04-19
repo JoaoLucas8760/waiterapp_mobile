@@ -18,28 +18,37 @@ import { Button } from "../Button";
 
 interface props {
   visible: boolean;
-  handeCloseModal: () => void;
+  handleCloseModal: () => void;
   product: null | ProductProps;
+  onAddToCart: (product: ProductProps) => void;
 }
 
-export function ProductModal({ visible, handeCloseModal, product }: props) {
-  console.log(product);
+export function ProductModal({
+  visible,
+  handleCloseModal,
+  product,
+  onAddToCart,
+}: props) {
   if (!product) {
     return null;
+  }
+  function handleAddToCart(product: ProductProps) {
+    onAddToCart(product!);
+    handleCloseModal();
   }
   return (
     <Modal
       visible={visible}
       animationType="slide"
       presentationStyle="pageSheet"
-      onRequestClose={handeCloseModal}
+      onRequestClose={handleCloseModal}
     >
       <Image
         source={{
           uri: `http://192.168.1.152:3001/uploads/${product.imagePath}`,
         }}
       >
-        <CloseButton onPress={handeCloseModal}>
+        <CloseButton onPress={handleCloseModal}>
           <Close />
         </CloseButton>
       </Image>
@@ -87,7 +96,7 @@ export function ProductModal({ visible, handeCloseModal, product }: props) {
             </Text>
           </PriceContainer>
           <Button
-            onPress={() => alert("adicionou")}
+            onPress={() => handleAddToCart(product)}
             title="Adicionar ao pedido"
           />
         </FooterContainer>
