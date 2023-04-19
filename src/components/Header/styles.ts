@@ -6,4 +6,8 @@ export const Container = styled.View`
 
 export const Content = styled.View``;
 
-export const OrderHeader = styled.View``;
+export const OrderHeader = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
