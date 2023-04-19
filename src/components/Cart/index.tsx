@@ -15,12 +15,18 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import { PlusCircle } from "../Icons/PlusCircle";
 import { MinusCircle } from "../Icons/MinusCircle";
 import { Button } from "../Button";
+import { ProductProps } from "../../types/Product";
 
 interface props {
   cartItems: CartItem[];
+  onAdd: (product: ProductProps) => void;
+  onDecrement: (product: ProductProps) => void;
 }
 
-export function Cart({ cartItems }: props) {
+export function Cart({ cartItems, onAdd, onDecrement }: props) {
+  const total = cartItems.reduce((acc, cartItem) => {
+    return acc + cartItem.quantity * cartItem.product.price;
+  }, 0);
   return (
     <>
       {cartItems.length > 0 && (
@@ -52,10 +58,13 @@ export function Cart({ cartItems }: props) {
                 </ProductDetails>
               </ProductContainer>
               <Actions>
-                <TouchableOpacity style={{ marginRight: 24 }}>
+                <TouchableOpacity
+                  style={{ marginRight: 24 }}
+                  onPress={() => onAdd(cartItem.product)}
+                >
                   <PlusCircle />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => onDecrement(cartItem.product)}>
                   <MinusCircle />
                 </TouchableOpacity>
               </Actions>
@@ -69,7 +78,7 @@ export function Cart({ cartItems }: props) {
             <>
               <Text color="#666">Total</Text>
               <Text size={20} weight="600">
-                {formatCurrency(120)}
+                {formatCurrency(total)}
               </Text>
             </>
           ) : (
