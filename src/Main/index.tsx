@@ -15,16 +15,23 @@ import {
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
-  const [selectedTable, setSelectedTable] = useState("");
+  const [selectedTable, setSelectedTable] = useState<null | string>(null);
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
     setIsTableModalVisible(false);
   }
+
+  function handleCancelOrder() {
+    setSelectedTable(null);
+  }
   return (
     <>
       <Container>
-        <Header selectedTable={selectedTable} />
+        <Header
+          selectedTable={selectedTable}
+          handleCancelOrder={handleCancelOrder}
+        />
 
         <CategoriesContainer>
           <Categories />

@@ -18,6 +18,12 @@ export function TableModal({
   handleSaveTable,
 }: props) {
   const [table, setTable] = useState("");
+
+  function onSave() {
+    setTable("");
+    handleSaveTable(table);
+    handleCloseModal();
+  }
   return (
     <Modal visible={visible} transparent animationType="fade">
       <Overlay behavior={Platform.OS === "android" ? "height" : "padding"}>
@@ -37,7 +43,7 @@ export function TableModal({
               value={table}
             />
             <Button
-              onPress={() => handleSaveTable(table)}
+              onPress={onSave}
               title="Salvar"
               disabled={table.length === 0}
             />

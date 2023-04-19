@@ -1,12 +1,13 @@
 import { TouchableOpacity } from "react-native";
 import { Text } from "../Text";
-import { Container, Content, OrderHeader } from "./styles";
+import { Container, Content, OrderHeader, Table } from "./styles";
 
 interface props {
-  selectedTable: string;
+  selectedTable: null | string;
+  handleCancelOrder: () => void;
 }
 
-export function Header({ selectedTable }: props) {
+export function Header({ selectedTable, handleCancelOrder }: props) {
   return (
     <Container>
       {!selectedTable && (
@@ -27,12 +28,15 @@ export function Header({ selectedTable }: props) {
               <Text size={24} weight="600">
                 Pedido
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleCancelOrder}>
                 <Text color="#d73035" weight="600" size={14}>
                   Cancelar pedido
                 </Text>
               </TouchableOpacity>
             </OrderHeader>
+            <Table>
+              <Text color="#666">Mesa {selectedTable}</Text>
+            </Table>
           </Content>
         </>
       )}
