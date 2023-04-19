@@ -6,6 +6,7 @@ import { Menu } from "../components/Menu";
 import { TableModal } from "../components/TableModal";
 import {
   CategoriesContainer,
+  CenteredContainer,
   Container,
   Footer,
   FooterContainer,
@@ -14,14 +15,17 @@ import {
 import { Cart } from "../components/Cart";
 import { CartItem } from "../types/Cart";
 import { ProductProps } from "../types/Product";
+import { ActivityIndicator } from "react-native";
+import { products as mockProducts } from "../mocks/products";
+import { Empty } from "../components/Icons/Empty";
+import { Text } from "../components/Text";
 
 export function Main() {
   const [isTableModalVisible, setIsTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState<null | string>(null);
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    // { quantity: 1, product: products[0] },
-    // { quantity: 2, product: products[1] },
-  ]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoading] = useState(false);
+  const [products] = useState<ProductProps[]>([]);
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -91,13 +95,30 @@ export function Main() {
           handleCancelOrder={handleResetOrder}
         />
 
-        <CategoriesContainer>
-          <Categories />
-        </CategoriesContainer>
+        {isLoading ? (
+          <CenteredContainer>
+            <ActivityIndicator color="#d73035" size="large" />
+          </CenteredContainer>
+        ) : (
+          <>
+            <CategoriesContainer>
+              <Categories />
+            </CategoriesContainer>
 
-        <MenuContainer>
-          <Menu onAddToCart={handleAddToCart} />
-        </MenuContainer>
+            {products.length > 0 ? (
+              <MenuContainer>
+                <Menu onAddToCart={handleAddToCart} products={products} />
+              </MenuContainer>
+            ) : (
+              <CenteredContainer>
+                <Empty />
+                <Text color="#666" style={{ marginTop: 24 }}>
+                  Nenhum produto foi encontado
+                </Text>
+              </CenteredContainer>
+            )}
+          </>
+        )}
       </Container>
       <Footer>
         <FooterContainer>
@@ -105,6 +126,7 @@ export function Main() {
             <Button
               title="Novo pedido"
               onPress={() => setIsTableModalVisible(true)}
+              disabled={isLoading}
             />
           )}
           {selectedTable && (
