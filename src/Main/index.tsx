@@ -43,6 +43,13 @@ export function Main() {
     );
   }, []);
 
+  async function handleSelectCategory(categoryId: string) {
+    const route =
+      categoryId === "" ? "/products" : `categories/${categoryId}/products`;
+    const { data } = await api.get(route);
+    setProducts(data);
+  }
+
   function handleSaveTable(table: string) {
     setSelectedTable(table);
     setIsTableModalVisible(false);
@@ -118,7 +125,10 @@ export function Main() {
         ) : (
           <>
             <CategoriesContainer>
-              <Categories categories={categories} />
+              <Categories
+                onSelectCategory={handleSelectCategory}
+                categories={categories}
+              />
             </CategoriesContainer>
 
             {products.length > 0 ? (
