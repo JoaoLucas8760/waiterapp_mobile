@@ -45,7 +45,7 @@ export function ProductModal({
     >
       <Image
         source={{
-          uri: `http://192.168.1.152:3001/uploads/${product.imagePath}`,
+          uri: `http://192.168.1.152:3002/uploads/${product.imagePath}`,
         }}
       >
         <CloseButton onPress={handleCloseModal}>
@@ -65,7 +65,7 @@ export function ProductModal({
         {product.ingredients.length > 0 && (
           <IngredientsContainer>
             <Text color="#666" weight="600">
-              Ingredientes
+              Ingrediente
             </Text>
 
             <FlatList

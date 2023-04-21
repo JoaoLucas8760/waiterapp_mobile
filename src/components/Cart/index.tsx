@@ -18,22 +18,41 @@ import { Button } from "../Button";
 import { ProductProps } from "../../types/Product";
 import { OrderConfirmedModal } from "../OrderConfirmedModal";
 import { useState } from "react";
+import { api } from "../../utils/api";
 
 interface props {
   cartItems: CartItem[];
   onAdd: (product: ProductProps) => void;
   onDecrement: (product: ProductProps) => void;
   onCofirmOrder: () => void;
+  selectedTable: string;
 }
 
-export function Cart({ cartItems, onAdd, onDecrement, onCofirmOrder }: props) {
-  const [isLoading] = useState(false);
+export function Cart({
+  cartItems,
+  onAdd,
+  onDecrement,
+  onCofirmOrder,
+  selectedTable,
+}: props) {
+  const [isLoading, setIsLoading] = useState(false);
   const [isOrderModalVisible, setIsOrderModalVisible] = useState(false);
   const total = cartItems.reduce((acc, cartItem) => {
     return acc + cartItem.quantity * cartItem.product.price;
   }, 0);
 
-  function handleConfirmOrder() {
+  async function handleConfirmOrder() {
+    setIsLoading(true);
+    const payload = {
+      table: selectedTable,
+      products: cartItems.map((cartItem) => ({
+        product: cartItem.product._id,
+        quantity: cartItem.quantity,
+      })),
+    };
+
+    await api.post("/orders", payload);
+    setIsLoading(false);
     setIsOrderModalVisible(true);
   }
 
@@ -56,7 +75,7 @@ export function Cart({ cartItems, onAdd, onDecrement, onCofirmOrder }: props) {
               <ProductContainer>
                 <Image
                   source={{
-                    uri: `http://192.168.1.152:3001/uploads/${cartItem.product.imagePath}`,
+                    uri: `http://192.168.1.152:3002/uploads/${cartItem.product.imagePath}`,
                   }}
                 />
                 <QuantityContainer>

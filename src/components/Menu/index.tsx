@@ -47,7 +47,7 @@ export function Menu({ onAddToCart, products }: props) {
           <Product onPress={() => handleOpenModal(product)}>
             <ProductImage
               source={{
-                uri: `http://192.168.1.152:3001/uploads/${product.imagePath}`,
+                uri: `http://192.168.1.152:3002/uploads/${product.imagePath}`,
               }}
             />
             <ProductDetails>

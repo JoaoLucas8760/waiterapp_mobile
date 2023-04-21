@@ -168,6 +168,7 @@ export function Main() {
           )}
           {selectedTable && (
             <Cart
+              selectedTable={selectedTable}
               cartItems={cartItems}
               onAdd={handleAddToCart}
               onDecrement={handleDecrementCartItem}
